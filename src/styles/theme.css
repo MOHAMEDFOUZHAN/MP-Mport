@@ -1,0 +1,777 @@
+/* ==========================================================================
+   MAPLE CONNECT QR — SCANNER WEB DESIGN SYSTEM
+   Brand Colors:
+   - Palladian Cream: #EEE9DF / #F7F5F0 (Signature Warm Background)
+   - Deep Espresso Clay: #5B4C3A (Primary Dominant Tone)
+   - Rich Earth Brown: #8A7356 (Secondary Accent)
+   - Soft Mushroom Beige: #C4B39A (Subtle Borders & Highlights)
+   - Warm Putty: #DED1BA (Pills & Surface Tones)
+   - Gentle Bone White: #F4EFE6 (Light Cards & Dark-surface text)
+   - Dark Charcoal Brown: #2F261F (High Readability Primary Text)
+   ========================================================================== */
+
+/* 1. Typography Fonts */
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gill Sans MT';
+  src: url('/fonts/GillSansMT-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gill Sans MT';
+  src: url('/fonts/GillSansMT-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Global CSS Variables */
+:root {
+  --bg-primary: #F7F5F0;
+  --bg-page: #EEE9DF;
+  --color-espresso: #5B4C3A;
+  --color-earth-brown: #8A7356;
+  --color-mushroom: #C4B39A;
+  --color-putty: #DED1BA;
+  --color-bone-white: #F4EFE6;
+  --color-charcoal: #2F261F;
+  --color-text-muted: #6B5E52;
+  --color-card-bg: #FFFFFF;
+  --color-card-border: #E8E2D5;
+  --color-card-shadow: rgba(91, 76, 58, 0.07);
+
+  --font-main: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-gill-sans: 'Gill Sans MT', 'Gill Sans', Trebuchet MS, sans-serif;
+  
+  --radius-button: 16px;
+  --radius-card: 22px;
+  --radius-pill: 9999px;
+  --max-content-width: 480px;
+}
+
+/* 3. Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-page);
+  color: var(--color-charcoal);
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* 4. Page Layout & Responsive Frame */
+.scanner-viewport {
+  width: 100%;
+  max-width: var(--max-content-width);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 0 40px rgba(91, 76, 58, 0.08);
+  border-left: 1px solid rgba(222, 209, 186, 0.35);
+  border-right: 1px solid rgba(222, 209, 186, 0.35);
+  padding: max(20px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+@media (min-width: 481px) {
+  .scanner-viewport {
+    padding: 24px 20px 40px;
+    margin: 20px auto;
+    border-radius: var(--radius-card);
+    min-height: calc(100vh - 40px);
+  }
+}
+
+/* Subtle organic grain / ambient background */
+.scanner-ambient-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: radial-gradient(circle at 50% -20%, rgba(138, 115, 86, 0.14) 0%, rgba(247, 245, 240, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scanner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 5. Announcement Banner */
+.scanner-announcement {
+  width: 100%;
+  background: linear-gradient(135deg, var(--color-espresso), #46392B);
+  color: var(--color-bone-white);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(91, 76, 58, 0.15);
+}
+
+.scanner-announcement svg {
+  flex-shrink: 0;
+  color: #F8D28B;
+}
+
+/* 6. Profile Header */
+.scanner-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.scanner-avatar-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.scanner-avatar-frame {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 8px 24px rgba(91, 76, 58, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scanner-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scanner-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-espresso) 0%, var(--color-earth-brown) 100%);
+  color: var(--color-bone-white);
+  font-size: 2.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.5px;
+}
+
+.scanner-verified-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: var(--color-espresso);
+  color: #FFFFFF;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.scanner-business-name {
+  font-size: clamp(1.25rem, 4.5vw, 1.55rem);
+  font-weight: 700;
+  color: var(--color-charcoal);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  line-height: 1.25;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.scanner-bio {
+  font-size: clamp(0.85rem, 3.2vw, 0.94rem);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  max-width: 95%;
+  word-break: break-word;
+}
+
+/* Business Meta (Address & Hours) */
+.scanner-meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.scanner-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  transition: all 0.2s ease;
+}
+
+.scanner-meta-pill:active {
+  transform: scale(0.97);
+}
+
+.scanner-meta-pill svg {
+  color: var(--color-earth-brown);
+  flex-shrink: 0;
+}
+
+/* 7. Save Contact to Phone Button (1-Tap vCard) */
+.scanner-save-contact-box {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.btn-save-contact-primary {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--color-espresso) 0%, #46392B 100%);
+  color: var(--color-bone-white);
+  border: none;
+  border-radius: var(--radius-button);
+  padding: 13px 18px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(91, 76, 58, 0.22);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.btn-save-contact-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(91, 76, 58, 0.18);
+}
+
+/* Notice alert when vCard is saved */
+.contact-notice-card {
+  width: 100%;
+  background: #E8F5E9;
+  border: 1px solid #C8E6C9;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #2E7D32;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.contact-notice-card button {
+  background: none;
+  border: none;
+  color: #2E7D32;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* 8. Quick Contact Shortcuts Bar (Call, WhatsApp, Maps, Email, Share, QR) */
+.scanner-shortcuts-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 22px;
+  padding: 6px 0;
+}
+
+.shortcut-circle-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-espresso);
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(91, 76, 58, 0.08);
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+.shortcut-circle-btn:active {
+  transform: scale(0.92);
+  background-color: var(--color-bone-white);
+}
+
+.shortcut-circle-btn svg {
+  flex-shrink: 0;
+}
+
+/* 9. Search & Filter Tabs */
+.scanner-search-box {
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.scanner-search-input {
+  width: 100%;
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--color-card-border);
+  border-radius: var(--radius-button);
+  padding: 12px 14px 12px 40px;
+  font-size: 0.88rem;
+  font-family: var(--font-main);
+  color: var(--color-charcoal);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.scanner-search-input:focus {
+  border-color: var(--color-espresso);
+}
+
+.scanner-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-earth-brown);
+  pointer-events: none;
+}
+
+.scanner-category-tabs {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scanner-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tab-btn {
+  flex-shrink: 0;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-pill);
+  padding: 7px 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-main);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-tab-btn.active {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+  color: var(--color-bone-white);
+  box-shadow: 0 2px 8px rgba(91, 76, 58, 0.2);
+}
+
+/* 10. Links Stream */
+.scanner-links-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scanner-link-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-button);
+  padding: 14px 16px;
+  text-decoration: none;
+  color: var(--color-charcoal);
+  box-shadow: 0 2px 6px var(--color-card-shadow);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
+}
+
+.scanner-link-card:active {
+  transform: scale(0.985);
+  box-shadow: 0 1px 3px var(--color-card-shadow);
+}
+
+.scanner-link-card.is-featured {
+  border: 1.5px solid var(--color-earth-brown);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF8F5 100%);
+  box-shadow: 0 4px 14px rgba(138, 115, 86, 0.12);
+}
+
+.link-badge {
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  background: linear-gradient(135deg, var(--color-espresso), var(--color-earth-brown));
+  color: var(--color-bone-white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+
+.scanner-link-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--color-bone-white);
+  border: 1px solid rgba(196, 179, 154, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-espresso);
+}
+
+.scanner-link-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.scanner-link-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.scanner-link-desc {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.scanner-link-actions-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.link-copy-btn {
+  background: none;
+  border: none;
+  color: var(--color-mushroom);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.link-copy-btn:hover {
+  color: var(--color-espresso);
+  background-color: var(--color-bone-white);
+}
+
+.link-chevron-icon {
+  color: var(--color-mushroom);
+}
+
+/* 11. Suspended / Expired View (Kill Switch) */
+.scanner-suspended-box {
+  width: 100%;
+  background-color: #FFFFFF;
+  border: 1.5px solid #F3C7C7;
+  border-radius: var(--radius-card);
+  padding: 36px 24px;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(186, 26, 26, 0.08);
+  margin-top: 20px;
+}
+
+.suspended-icon-circle {
+  width: 64px;
+  height: 64px;
+  background-color: #FDEDED;
+  color: #D32F2F;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.suspended-badge {
+  display: inline-block;
+  background-color: #FDEDED;
+  color: #C62828;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.suspended-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+  margin-bottom: 8px;
+}
+
+.suspended-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.btn-suspended-contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background-color: var(--color-espresso);
+  color: var(--color-bone-white);
+  padding: 13px 20px;
+  border-radius: var(--radius-button);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: var(--font-main);
+  box-shadow: 0 4px 12px rgba(91, 76, 58, 0.2);
+}
+
+/* 12. Footer Branding Attribution */
+.scanner-footer {
+  width: 100%;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(196, 179, 154, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.scanner-attribution {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-charcoal);
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.attr-maple-connect {
+  font-family: var(--font-main);
+  font-weight: 700;
+  color: var(--color-espresso);
+}
+
+.attr-divider {
+  color: var(--color-mushroom);
+  font-size: 0.85rem;
+}
+
+.attr-maple-pro {
+  font-family: var(--font-gill-sans);
+  font-weight: 700;
+  color: var(--color-charcoal);
+  letter-spacing: 0.2px;
+}
+
+.attr-tagline {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+/* 13. QR In-Person Sharing Modal */
+.qr-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(47, 38, 31, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.qr-modal-card {
+  width: 100%;
+  max-width: 360px;
+  background-color: #FFFFFF;
+  border-radius: var(--radius-card);
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.qr-modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--color-bone-white);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-espresso);
+  cursor: pointer;
+}
+
+.qr-modal-img {
+  width: 220px;
+  height: 220px;
+  margin: 16px auto;
+  border-radius: 12px;
+  border: 1px solid var(--color-card-border);
+  padding: 8px;
+  background: #FFFFFF;
+}
+
+/* 14. Skeleton Loader */
+.scanner-skeleton {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.skeleton-box {
+  background: linear-gradient(90deg, #EBE6DC 25%, #F4EFE6 50%, #EBE6DC 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
