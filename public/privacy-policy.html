@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Mport Smart QR</title>
+  <style>
+    :root {
+      --bg: #0F1015;
+      --card: #181A22;
+      --text: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --primary: #6C5CE7;
+      --border: #282C37;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+    }
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .brand {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .brand span { color: var(--primary); }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .updated { font-size: 13px; color: var(--text-muted); }
+    h2 { font-size: 20px; font-weight: 700; margin-top: 32px; margin-bottom: 12px; color: #FFF; }
+    p, li { font-size: 15px; color: #D1D5DB; margin-bottom: 14px; }
+    ul { padding-left: 24px; margin-bottom: 16px; }
+    .highlight-box {
+      background: rgba(108, 92, 231, 0.1);
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+    }
+    a { color: #A78BFA; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">Mport <span>QR</span></div>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: November 1, 2026 • Effective Date: November 1, 2026</p>
+    </div>
+
+    <div class="highlight-box">
+      <p style="margin-bottom: 0;"><strong>Summary:</strong> Mport provides smart QR standees and digital menu pages for businesses. We do not sell your personal data. All information is encrypted in transit and securely hosted on cloud infrastructure.</p>
+    </div>
+
+    <h2>1. Information We Collect</h2>
+    <p>When you register and use the Mport application or scanner landing pages, we collect:</p>
+    <ul>
+      <li><strong>Account Details:</strong> Full name, phone number, and optional email address used for OTP verification and account identification.</li>
+      <li><strong>Business Profile Data:</strong> Business name, category, shop address, WhatsApp contact number, and links you choose to display (e.g., Google Reviews, Instagram, menus).</li>
+      <li><strong>Media & Uploads:</strong> Shop logos and menu images/PDFs uploaded by you to display on your public standee landing page.</li>
+      <li><strong>Scan Analytics:</strong> Anonymous counter visit metrics, timestamp of scans, and click counts on individual links to provide you with visitor analytics. We do not track individual customer identities or GPS locations.</li>
+    </ul>
+
+    <h2>2. How We Use Your Information</h2>
+    <p>We use the collected information exclusively to:</p>
+    <ul>
+      <li>Create and host your public business multi-link QR destination page.</li>
+      <li>Process subscription activations and renewals via PCI-DSS compliant gateways (Razorpay).</li>
+      <li>Send essential transactional notifications (OTP codes, scan summaries, plan expiration alerts).</li>
+      <li>Improve application stability and prevent fraudulent activities.</li>
+    </ul>
+
+    <h2>3. Payment & Financial Data Security</h2>
+    <p>All subscription payments are processed securely through certified payment aggregators (Razorpay / UPI). Mport does not collect, view, or store credit card numbers, debit card details, or UPI PINs. All financial transactions are encrypted using industry-standard 256-bit TLS encryption.</p>
+
+    <h2>4. Data Storage & Sharing</h2>
+    <p>Your business profile and uploaded media are stored in secure cloud data centers managed by Supabase and PostgreSQL with strict Row-Level Security (RLS). We never sell, rent, or lease your personal information to third-party advertisers or data brokers.</p>
+
+    <h2>5. Data Retention & Deletion</h2>
+    <p>We retain your profile data for as long as your account remains active. You can request complete deletion of your account, business profile, and uploaded media at any time by navigating to <strong>Account Settings &gt; Delete Account</strong> within the app or by sending an email to <a href="mailto:support@mport.in">support@mport.in</a>. Data is completely purged within 30 days of request.</p>
+
+    <h2>6. Permissions Requested</h2>
+    <ul>
+      <li><strong>Internet (INTERNET & ACCESS_NETWORK_STATE):</strong> Required to synchronize profiles and process cloud subscriptions.</li>
+      <li><strong>Notifications (POST_NOTIFICATIONS):</strong> Used to deliver daily scan summaries and subscription reminders (optional, can be disabled anytime in device settings).</li>
+      <li><strong>Photos/Media (READ_MEDIA_IMAGES):</strong> Used only when you select a shop logo or food menu from your device gallery.</li>
+    </ul>
+
+    <h2>7. Contact Us</h2>
+    <p>If you have any questions or concerns regarding this Privacy Policy or our data practices, please reach out to us:</p>
+    <ul>
+      <li><strong>Email:</strong> <a href="mailto:support@mport.in">support@mport.in</a></li>
+      <li><strong>Website:</strong> <a href="https://mport-five.vercel.app">https://mport-five.vercel.app</a></li>
+      <li><strong>Product:</strong> Mport</li>
+    </ul>
+
+    <div class="footer">
+      &copy; 2026 Mport. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
+

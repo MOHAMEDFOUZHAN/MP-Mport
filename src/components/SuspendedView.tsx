@@ -12,7 +12,7 @@ export const SuspendedView: React.FC<SuspendedViewProps> = ({ profile }) => {
 
   const waUrl = cleanPhone
     ? `https://wa.me/${cleanPhone.replace(/^\+/, "")}?text=${encodeURIComponent(
-        `Hello, I would like to inquire about activating the Maple Connect profile for ${profile.business_name} (${profile.slug}).`
+        `Hello, I would like to inquire about activating the profile for ${profile.business_name} (${profile.slug}).`
       )}`
     : "";
 
@@ -48,7 +48,7 @@ export const SuspendedView: React.FC<SuspendedViewProps> = ({ profile }) => {
         </a>
       ) : (
         <div style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>
-          Please contact your Maple Connect account manager to renew your service.
+          Please contact support to renew your service.
         </div>
       )}
     </div>

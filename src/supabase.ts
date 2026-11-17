@@ -14,6 +14,36 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   },
 });
 
+const CACHE_PREFIX = "mscape_qr_cache_";
+
+export function getCachedProfile(slug: string): QRProfile | null {
+  try {
+    const cleanSlug = slug.trim().toLowerCase();
+    const raw = sessionStorage.getItem(`${CACHE_PREFIX}${cleanSlug}`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    // 10-minute cache TTL
+    if (parsed.timestamp && Date.now() - parsed.timestamp < 10 * 60 * 1000) {
+      return parsed.profile as QRProfile;
+    }
+  } catch {
+    // Ignore storage issues
+  }
+  return null;
+}
+
+export function cacheProfile(slug: string, profile: QRProfile): void {
+  try {
+    const cleanSlug = slug.trim().toLowerCase();
+    sessionStorage.setItem(
+      `${CACHE_PREFIX}${cleanSlug}`,
+      JSON.stringify({ timestamp: Date.now(), profile })
+    );
+  } catch {
+    // Ignore storage issues
+  }
+}
+
 export async function fetchProfileBySlug(slug: string): Promise<QRProfile | null> {
   const cleanSlug = slug.trim().toLowerCase();
   if (!cleanSlug) return null;
@@ -98,6 +128,7 @@ export async function fetchProfileBySlug(slug: string): Promise<QRProfile | null
       links: rawLinks,
     };
 
+    cacheProfile(cleanSlug, profile);
     return profile;
   } catch (err) {
     console.error("fetchProfileBySlug error:", err);
@@ -105,11 +136,27 @@ export async function fetchProfileBySlug(slug: string): Promise<QRProfile | null
   }
 }
 
+export function getOrCreateVisitorId(): string {
+  try {
+    const key = "mport_visitor_id";
+    let vid = localStorage.getItem(key);
+    if (!vid) {
+      vid = "v_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+      localStorage.setItem(key, vid);
+    }
+    return vid;
+  } catch {
+    return "v_anon_" + Math.random().toString(36).substring(2, 10);
+  }
+}
+
 export async function recordProfileVisit(profileId: string) {
   try {
+    const visitorId = getOrCreateVisitorId();
     await supabase.from("analytics_events").insert({
       profile_id: profileId,
       event_type: "profile_visit",
+      visitor_ip_hash: visitorId,
       device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop",
       user_agent: navigator.userAgent.substring(0, 250),
       referer: document.referrer.substring(0, 250) || "direct_qr",
@@ -121,10 +168,12 @@ export async function recordProfileVisit(profileId: string) {
 
 export async function recordLinkClick(profileId: string, linkId: string) {
   try {
+    const visitorId = getOrCreateVisitorId();
     await supabase.from("analytics_events").insert({
       profile_id: profileId,
       link_id: linkId,
       event_type: "link_click",
+      visitor_ip_hash: visitorId,
       device_type: /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop",
       user_agent: navigator.userAgent.substring(0, 250),
     });

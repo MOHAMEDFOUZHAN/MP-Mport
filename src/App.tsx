@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { QRProfile } from "./types";
-import { fetchProfileBySlug, recordProfileVisit } from "./supabase";
+import { fetchProfileBySlug, getCachedProfile, recordProfileVisit } from "./supabase";
 import { PublicProfileView } from "./components/PublicProfileView";
 import { SuspendedView } from "./components/SuspendedView";
 import { NotFoundView } from "./components/NotFoundView";
@@ -42,16 +42,25 @@ export const App: React.FC = () => {
     setSlug(currentSlug);
 
     async function load() {
-      setLoading(true);
-      const data = await fetchProfileBySlug(currentSlug);
-      setProfile(data);
-      setLoading(false);
-
-      if (data && data.is_active && !data.is_suspended) {
-        recordProfileVisit(data.id);
-        // Set document title dynamically
-        document.title = `${data.business_name} | Maple Connect`;
+      // Instant render from session cache if available (< 50ms)
+      const cached = getCachedProfile(currentSlug);
+      if (cached) {
+        setProfile(cached);
+        setLoading(false);
+      } else {
+        setLoading(true);
       }
+
+      const data = await fetchProfileBySlug(currentSlug);
+      if (data) {
+        setProfile(data);
+        if (data.is_active && !data.is_suspended) {
+          recordProfileVisit(data.id);
+          // Set document title dynamically
+          document.title = `${data.business_name} | Powered by Maple Pro`;
+        }
+      }
+      setLoading(false);
     }
 
     load();

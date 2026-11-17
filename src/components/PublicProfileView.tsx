@@ -19,6 +19,26 @@ import {
   Globe,
   Link as LinkIcon,
   X,
+  BellRing,
+  CalendarCheck,
+  Wifi,
+  Headphones,
+  Compass,
+  Star,
+  BookOpen,
+  CreditCard,
+  Tag,
+  Calendar,
+  FileText,
+  Dumbbell,
+  Stethoscope,
+  Pill,
+  AlertCircle,
+  Home,
+  UserCheck,
+  Video,
+  Briefcase,
+  Send,
 } from "lucide-react";
 import { QRProfile, ProfileLink } from "../types";
 import { recordLinkClick } from "../supabase";
@@ -56,8 +76,10 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
     profile.links?.find((l) => l.link_type === "email")?.url ||
     "";
 
-  const waContactUrl = cleanPhone
-    ? `https://wa.me/${cleanPhone.replace(/^\+/, "")}?text=${encodeURIComponent(
+  const rawWaDigits = cleanPhone.replace(/^\+/, "");
+  const formattedWaNumber = rawWaDigits.length === 10 ? `91${rawWaDigits}` : rawWaDigits;
+  const waContactUrl = formattedWaNumber
+    ? `https://wa.me/${formattedWaNumber}?text=${encodeURIComponent(
         `Hi ${profile.business_name}, I scanned your QR standee and would like to connect!`
       )}`
     : "";
@@ -83,7 +105,7 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
         ? `ADR;TYPE=WORK;CHARSET=UTF-8:;;${profile.address};;;;`
         : "",
       `URL:${window.location.href}`,
-      "NOTE;CHARSET=UTF-8:Connected by Maple Connect - Unit of Maple Pro",
+      "NOTE;CHARSET=UTF-8:Powered by Mport",
       "END:VCARD",
     ]
       .filter(Boolean)
@@ -169,15 +191,40 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
     if (link.link_type === "whatsapp") {
       if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
       const num = raw.replace(/[^0-9]/g, "");
-      return `https://wa.me/${num}`;
+      const msg = link.extra_data?.message;
+      return msg
+        ? `https://wa.me/${num}?text=${encodeURIComponent(msg)}`
+        : `https://wa.me/${num}`;
     }
-    if (link.link_type === "phone") {
+    if (
+      link.link_type === "phone" ||
+      link.link_type === "emergency" ||
+      link.link_type === "reception"
+    ) {
       if (raw.startsWith("tel:")) return raw;
       return `tel:${raw.replace(/[^0-9+]/g, "")}`;
+    }
+    if (link.link_type === "pharmacy") {
+      if (raw.startsWith("http://") || raw.startsWith("https://")) return raw;
+      const num = raw.replace(/[^0-9]/g, "");
+      return `https://wa.me/${num}?text=${encodeURIComponent(
+        "Hi, I want to order medicines / send prescription"
+      )}`;
     }
     if (link.link_type === "email") {
       if (raw.startsWith("mailto:")) return raw;
       return `mailto:${raw}`;
+    }
+    if (
+      (link.link_type === "payment" || link.link_type === "upi_direct") &&
+      !raw.startsWith("http://") &&
+      !raw.startsWith("https://")
+    ) {
+      if (raw.includes("@")) {
+        return `upi://pay?pa=${encodeURIComponent(raw)}&pn=${encodeURIComponent(
+          profile.business_name || "Merchant"
+        )}&cu=INR`;
+      }
     }
     if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
       return `https://${raw}`;
@@ -187,9 +234,40 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
 
   // Render appropriate brand icon for each link
   const renderLinkIcon = (link: ProfileLink) => {
+    const customLogo = link.extra_data?.custom_logo_url || link.extra_data?.logo_url;
+    if (customLogo) {
+      return (
+        <img
+          src={customLogo}
+          alt={link.title || "Link logo"}
+          className="w-5 h-5 object-contain rounded"
+          onError={(e) => {
+            (e.target as HTMLElement).style.display = "none";
+          }}
+        />
+      );
+    }
     switch (link.link_type) {
+      // Social & Communication
       case "whatsapp":
+      case "whatsapp_channel":
         return <WhatsAppIcon size={22} />;
+      case "upi_direct":
+        return <CreditCard size={20} color="#F59E0B" />;
+      case "tour_360":
+        return <Compass size={20} color="#7C3AED" />;
+      case "brand_name":
+        return <Briefcase size={20} color="#F97316" />;
+      case "brand_logo":
+        return <Tag size={20} color="#EA580C" />;
+      case "keyword":
+        return <Search size={20} color="#8B5CF6" />;
+      case "play_store":
+      case "app_store":
+        return <Download size={20} color="#00875A" />;
+      case "justdial":
+      case "indiamart":
+        return <ShoppingBag size={20} color="#BE123C" />;
       case "instagram":
         return <InstagramIcon size={22} />;
       case "facebook":
@@ -198,16 +276,72 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
         return <YouTubeIcon size={22} />;
       case "google_maps":
         return <GoogleMapsIcon size={22} />;
+      case "google_review":
+        return <Star size={20} color="#F59E0B" />;
       case "phone":
-        return <Phone size={20} color="#5B4C3A" />;
+        return <Phone size={20} color="#15803D" />;
       case "email":
         return <Mail size={20} color="#5B4C3A" />;
-      case "store":
-        return <ShoppingBag size={20} color="#5B4C3A" />;
-      case "menu":
-        return <UtensilsCrossed size={20} color="#5B4C3A" />;
+      case "telegram":
+        return <Send size={20} color="#0088CC" />;
+      case "x":
+      case "x_twitter":
+        return <X size={20} color="#1E293B" />;
+      case "linkedin":
+        return <Briefcase size={20} color="#0A66C2" />;
       case "website":
-        return <Globe size={20} color="#5B4C3A" />;
+        return <Globe size={20} color="#2563EB" />;
+
+      // Hospitality & Hotel Dining Industry
+      case "menu":
+        return <UtensilsCrossed size={20} color="#D97706" />;
+      case "room_service":
+        return <BellRing size={20} color="#8A7356" />;
+      case "reservation":
+        return <CalendarCheck size={20} color="#0D9488" />;
+      case "wifi":
+        return <Wifi size={20} color="#0284C7" />;
+      case "reception":
+        return <Headphones size={20} color="#5B4C3A" />;
+      case "tripadvisor":
+        return <Compass size={20} color="#00AA6C" />;
+
+      // Retail & Shopping
+      case "store":
+        return <ShoppingBag size={20} color="#059669" />;
+      case "catalog":
+        return <BookOpen size={20} color="#B45309" />;
+      case "payment":
+        return <CreditCard size={20} color="#4F46E5" />;
+      case "offers":
+        return <Tag size={20} color="#DC2626" />;
+
+      // Salons & Services
+      case "appointment":
+        return <Calendar size={20} color="#BE185D" />;
+      case "rate_card":
+        return <FileText size={20} color="#7C3AED" />;
+      case "membership":
+        return <Dumbbell size={20} color="#EA580C" />;
+
+      // Healthcare & Wellness
+      case "consultation":
+        return <Stethoscope size={20} color="#0284C7" />;
+      case "pharmacy":
+        return <Pill size={20} color="#16A34A" />;
+      case "emergency":
+        return <AlertCircle size={20} color="#DC2626" />;
+
+      // Corporate & Real Estate
+      case "property_listing":
+        return <Home size={20} color="#0F766E" />;
+      case "vcard":
+        return <UserCheck size={20} color="#5B4C3A" />;
+      case "meeting":
+        return <Video size={20} color="#4338CA" />;
+      case "portfolio":
+        return <Briefcase size={20} color="#334155" />;
+
       default:
         return <LinkIcon size={20} color="#5B4C3A" />;
     }
@@ -222,19 +356,70 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
     }
     if (
       links.some((l) =>
-        ["instagram", "facebook", "youtube", "tiktok", "x", "linkedin"].includes(
-          l.link_type
-        )
+        [
+          "menu",
+          "room_service",
+          "reservation",
+          "wifi",
+          "reception",
+          "tripadvisor",
+        ].includes(l.link_type)
+      )
+    ) {
+      set.add("hospitality");
+    }
+    if (
+      links.some((l) =>
+        ["store", "catalog", "payment", "offers"].includes(l.link_type)
+      )
+    ) {
+      set.add("shopping");
+    }
+    if (
+      links.some((l) =>
+        [
+          "appointment",
+          "rate_card",
+          "membership",
+          "consultation",
+          "pharmacy",
+          "emergency",
+          "property_listing",
+          "meeting",
+          "portfolio",
+          "vcard",
+        ].includes(l.link_type)
+      )
+    ) {
+      set.add("services");
+    }
+    if (
+      links.some((l) =>
+        [
+          "instagram",
+          "facebook",
+          "youtube",
+          "tiktok",
+          "x",
+          "x_twitter",
+          "linkedin",
+          "telegram",
+          "google_review",
+        ].includes(l.link_type)
       )
     ) {
       set.add("social");
     }
-    if (links.some((l) => ["menu", "store"].includes(l.link_type))) {
-      set.add("catalog");
-    }
     if (
       links.some((l) =>
-        ["whatsapp", "phone", "email", "google_maps"].includes(l.link_type)
+        [
+          "whatsapp",
+          "phone",
+          "email",
+          "google_maps",
+          "reception",
+          "emergency",
+        ].includes(l.link_type)
       )
     ) {
       set.add("contact");
@@ -248,17 +433,60 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
 
     if (activeCategory === "featured") {
       list = list.filter((l) => l.extra_data?.badge || l.extra_data?.is_featured);
+    } else if (activeCategory === "hospitality") {
+      list = list.filter((l) =>
+        [
+          "menu",
+          "room_service",
+          "reservation",
+          "wifi",
+          "reception",
+          "tripadvisor",
+        ].includes(l.link_type)
+      );
+    } else if (activeCategory === "shopping") {
+      list = list.filter((l) =>
+        ["store", "catalog", "payment", "offers"].includes(l.link_type)
+      );
+    } else if (activeCategory === "services") {
+      list = list.filter((l) =>
+        [
+          "appointment",
+          "rate_card",
+          "membership",
+          "consultation",
+          "pharmacy",
+          "emergency",
+          "property_listing",
+          "meeting",
+          "portfolio",
+          "vcard",
+        ].includes(l.link_type)
+      );
     } else if (activeCategory === "social") {
       list = list.filter((l) =>
-        ["instagram", "facebook", "youtube", "tiktok", "x", "linkedin"].includes(
-          l.link_type
-        )
+        [
+          "instagram",
+          "facebook",
+          "youtube",
+          "tiktok",
+          "x",
+          "x_twitter",
+          "linkedin",
+          "telegram",
+          "google_review",
+        ].includes(l.link_type)
       );
-    } else if (activeCategory === "catalog") {
-      list = list.filter((l) => ["menu", "store"].includes(l.link_type));
     } else if (activeCategory === "contact") {
       list = list.filter((l) =>
-        ["whatsapp", "phone", "email", "google_maps"].includes(l.link_type)
+        [
+          "whatsapp",
+          "phone",
+          "email",
+          "google_maps",
+          "reception",
+          "emergency",
+        ].includes(l.link_type)
       );
     }
 
@@ -472,8 +700,10 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
                 const labels: Record<string, string> = {
                   all: "All",
                   featured: "Featured ⭐",
+                  hospitality: "Dining & Hotel 🍽️",
+                  shopping: "Shop & Offers 🛍️",
+                  services: "Services & Care 🩺",
                   social: "Socials 💬",
-                  catalog: "Menu & Store 🛍️",
                   contact: "Contact 📞",
                 };
                 return (
@@ -563,9 +793,8 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
       {/* 7. Footer Branding Attribution with Gill Sans MT for Maple Pro */}
       <footer className="scanner-footer">
         <div className="scanner-attribution">
-          <span className="attr-maple-connect">Maple Connect</span>
-          <span className="attr-divider">|</span>
-          <span className="attr-maple-pro">Unit of Maple Pro</span>
+          <span className="attr-powered">Powered by </span>
+          <span className="attr-maple-pro">Maple Pro</span>
         </div>
         <p className="attr-tagline">One QR. Everything Connected.</p>
       </footer>
