@@ -790,11 +790,11 @@ export const PublicProfileView: React.FC<PublicProfileViewProps> = ({ profile })
         )}
       </main>
 
-      {/* 7. Footer Branding Attribution with Gill Sans MT for Maple Pro */}
+      {/* 7. Footer Branding Attribution with Gill Sans MT for Mport */}
       <footer className="scanner-footer">
         <div className="scanner-attribution">
           <span className="attr-powered">Powered by </span>
-          <span className="attr-maple-pro">Maple Pro</span>
+          <span className="attr-maple-pro">Mport</span>
         </div>
         <p className="attr-tagline">One QR. Everything Connected.</p>
       </footer>

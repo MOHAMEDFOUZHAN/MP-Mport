@@ -41,7 +41,7 @@ export const QrModal: React.FC<QrModalProps> = ({
       try {
         await navigator.share({
           title,
-          text: `Check out ${title} on Maple Pro:`,
+          text: `Check out ${title} on Mport:`,
           url: window.location.href,
         });
         return;

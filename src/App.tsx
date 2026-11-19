@@ -68,7 +68,7 @@ export const App: React.FC = () => {
         if (data.is_active && !data.is_suspended && !isProfileExpired(data)) {
           recordProfileVisit(data.id);
           // Set document title dynamically
-          document.title = `${data.business_name} | Powered by Maple Pro`;
+          document.title = `${data.business_name} | Mport`;
         }
       }
       setLoading(false);
