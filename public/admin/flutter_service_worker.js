@@ -1,7 +1,7 @@
 'use strict';
 const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
-const CACHE_NAME = 'flutter-app-cache';
+const CACHE_NAME = 'flutter-app-cache-v4';
 
 const RESOURCES = {"assets/AssetManifest.bin": "57915253c6f63ca92fad3fe4aea0e6b6",
 "assets/AssetManifest.bin.json": "f5f5722aa5bf24054503330814599549",
@@ -17,7 +17,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "57915253c6f63ca92fad3fe4aea0e6b6
 "assets/assets/fonts/Raleway-Regular.ttf": "b5ab0622b3cdf48e408ec94c025579fa",
 "assets/assets/fonts/Raleway-SemiBold.ttf": "528ae8639aa918c14d7ee1becb6a36fc",
 "assets/assets/fonts/Rallomy-Regular.ttf": "5a41f6b9731689c08f4277cc75fb1e25",
-"assets/assets/images/logo.png": "b1ded4068d484c0f4d68118092e4d454",
+"assets/assets/images/logo.png": "9ed8ac01c8bf6efad032be812eaf0904",
 "assets/FontManifest.json": "27fe8c38e5df2284a590b3580793599e",
 "assets/fonts/MaterialIcons-Regular.otf": "2f8c9b14f0d7ef38926e15041cd3d254",
 "assets/NOTICES": "07b80dce813f2ab3cb0cba5b9a4d9ba0",
@@ -32,8 +32,8 @@ const RESOURCES = {"assets/AssetManifest.bin": "57915253c6f63ca92fad3fe4aea0e6b6
 "canvaskit/skwasm.js": "ea559890a088fe28b4ddf70e17e60052",
 "canvaskit/skwasm.js.symbols": "e72c79950c8a8483d826a7f0560573a1",
 "canvaskit/skwasm.wasm": "39dd80367a4e71582d234948adc521c0",
-"favicon.ico": "83d2b5bbf2963ccf32d5e9a17cd35b32",
-"favicon.png": "0741975818310795e698af09de107e72",
+"favicon.ico": "298d25286af90c1205a1b7f840b2994c",
+"favicon.png": "3fce14371f4fe331b9b6b00119b49453",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
 "flutter_bootstrap.js": "debe7943f38bf10fc320cc002b4f4d21",
 "icons/Icon-192.png": "ed533372a2f104a5185e575b5f0bd983",
