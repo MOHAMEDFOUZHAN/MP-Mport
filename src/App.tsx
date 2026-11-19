@@ -5,6 +5,17 @@ import { PublicProfileView } from "./components/PublicProfileView";
 import { SuspendedView } from "./components/SuspendedView";
 import { NotFoundView } from "./components/NotFoundView";
 
+export const isProfileExpired = (p: QRProfile): boolean => {
+  if (!p.expiry_date) return false;
+  try {
+    const exp = new Date(p.expiry_date);
+    exp.setHours(23, 59, 59, 999);
+    return Date.now() > exp.getTime();
+  } catch {
+    return false;
+  }
+};
+
 export const App: React.FC = () => {
   const [slug, setSlug] = useState<string>("");
   const [profile, setProfile] = useState<QRProfile | null>(null);
@@ -54,7 +65,7 @@ export const App: React.FC = () => {
       const data = await fetchProfileBySlug(currentSlug);
       if (data) {
         setProfile(data);
-        if (data.is_active && !data.is_suspended) {
+        if (data.is_active && !data.is_suspended && !isProfileExpired(data)) {
           recordProfileVisit(data.id);
           // Set document title dynamically
           document.title = `${data.business_name} | Powered by Maple Pro`;
@@ -99,7 +110,7 @@ export const App: React.FC = () => {
         </div>
       ) : !profile ? (
         <NotFoundView slug={slug} />
-      ) : profile.is_suspended || !profile.is_active ? (
+      ) : profile.is_suspended || !profile.is_active || isProfileExpired(profile) ? (
         <SuspendedView profile={profile} />
       ) : (
         <PublicProfileView profile={profile} />
