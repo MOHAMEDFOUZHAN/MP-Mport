@@ -31920,7 +31920,7 @@ r=J.aQ(r==null?"":r)
 s=a.h(0,"name")
 s=J.aQ(s==null?"":s)
 if(B.l.n(q,"trial")||B.l.n(q,"free")||q==="7d"||q==="14d"||B.l.n(r.toUpperCase(),"TRIAL")||B.l.n(s.toUpperCase(),"TRIAL"))return A.aDw("\u20b90 (100% Free - 7 Days)","free_trial_7d",A.a(["7 Days Complete Free Trial","Unlimited Customer Scans","Digital Menu & Custom Links","Zero Obligation \u2022 No Card Required","Instant Counter QR Standee Download"],t.s),"plan_free_trial",0,!0,"7-Day Free Trial",0,0,"\ud83d\udfe2 7-DAY FREE TRIAL")
-return A.aDw("\u20b91,000 / 6 months (incl. tax)","six_months_unlimited",A.a(["6 Months Full Active Service (180 Days)",u.aS,"Digital Food Menu & WhatsApp Orders","All Social Media & Google Review Links",u.b,"Premium Acrylic Table Standee Included","All Taxes Included"],t.s),"plan_six_months",6,!0,"6 Months Unlimited Plan",1000,0,"\u2b50 6 MONTHS UNLIMITED")},
+return A.aDw("\u20b91,000 / 6 months (excl. tax)","six_months_unlimited",A.a(["6 Months Full Active Service (180 Days)",u.aS,"Digital Food Menu & WhatsApp Orders","All Social Media & Google Review Links",u.b,"Premium Acrylic Table Standee Included","Excl. Tax + GST"],t.s),"plan_six_months",6,!0,"6 Months Unlimited Plan",1000,0,"\u2b50 6 MONTHS UNLIMITED")},
 bg3(a2){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b=null,a="active",a0="days_remaining",a1=a2.h(0,"status")
 if(a1==null)a1=a
 n=a2.h(0,"plan")!=null?A.buc(A.ci(t.f.a(a2.h(0,"plan")),t.N,t.z)):b
@@ -116676,7 +116676,7 @@ else a0="INACTIVE"
 b=A.F(A.a([new A.cF(1,B.bd,r,a4),A.A(a4,A.t(a0,a4,a4,a4,a4,B.byj,a4,a4,a4),B.r,a4,a4,new A.B(d,a4,a4,b,a4,a4,B.z),a4,a4,a4,a4,B.d2,a4,a4,a4)],a),B.u,B.aa,B.p,a4,a4)
 if(b0)r=a4
 else{r=a9.c
-r=r==null?a4:r.w}if(r==null)r=k?"\u20b90 (100% Free - 7 Days)":"\u20b91,000 / 6 months (incl. tax)"
+r=r==null?a4:r.w}if(r==null)r=k?"\u20b90 (100% Free - 7 Days)":"\u20b91,000 / 6 months (excl. tax)"
 r=A.t(r,a4,a4,a4,a4,B.bv3,a4,a4,a4)
 d=""+p
 d=A.t(n?d+" scans used \u2022 Unlimited (\u221e)":d+" / "+o+" scans used",a4,B.a2,a4,a4,B.bA3,a4,a4,a4)
@@ -118178,7 +118178,7 @@ if(k.length!==0)B.m.G(n,A.a([A.a_(A.dF(B.ac7,B.bCh,new A.aHx(k),A.cb(f,f,B.az,f,
 r=e.XG(A.F(n,B.u,B.q,B.p,f,f),B.DL,l,"Owner & Contact Credentials")
 n=e.iV("Active Plan",s.gJN())
 l=s.fr
-l=e.iV("Plan Fee","\u20b9"+l+" (All Taxes Included)")
+l=e.iV("Plan Fee","\u20b9"+l+" (Excl. Tax + GST)")
 k=s.go
 return A.A(f,A.N(A.a([o,A.a_(A.cH(A.N(A.a([m,B.aq,q,B.ak,r,B.ak,e.XF(B.lC,A.a([n,l,e.iV("Expiry Date",k==null?"No Expiry Set":k),e.iV("Days Remaining",""+s.gm0()+" days"),e.iV("Live Scan Quota","Unlimited Scans (\u221e)"),e.iV("Published Links",""+s.z+" links active")],p),"Subscription & Quota"),B.bu,A.F(A.a([A.a_(A.e3(B.DY,B.bIA,new A.aHz(s),A.cP(f,f,f,f,f,f,f,f,f,B.v,f,f,B.et,f,new A.as(A.l(10),B.M),B.hM,f,f,f,f)),1),B.aO,A.a_(A.dF(B.Ep,B.bEG,new A.aHA(e,a,s),A.cb(f,f,B.v,f,f,f,0,f,f,B.A,f,f,B.et,f,new A.as(A.l(10),B.M),f,f,f,f,f)),1)],p),B.u,B.q,B.p,f,f)],p),B.bX,B.q,B.p),f,B.T,B.aN,f,B.Y),1)],p),B.u,B.q,B.p),B.r,f,f,B.nn,f,d.a.b*0.88,f,f,f,f,f,f)},
 $S:94}
@@ -145831,7 +145831,7 @@ B.bvJ=new A.i(!0,B.A,null,null,null,null,28,B.bk,null,null,null,null,null,null,n
 B.bBg=new A.k("\u20b91,000",null,B.bvJ,null,null,null,null,null,null,null,null)
 B.a48=new A.x(1,0.8392156862745098,0.7803921568627451,0.6980392156862745,B.y)
 B.btW=new A.i(!0,B.a48,null,null,null,null,13,B.aC,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.bDw=new A.k("/ 6 Months (All Taxes Included)",null,B.btW,null,null,null,null,null,null,null,null)
+B.bDw=new A.k("/ 6 Months (Excl. Tax + GST)",null,B.btW,null,null,null,null,null,null,null,null)
 B.aZH=A.a(s([B.bBg,B.a1,B.bDw]),t.p)
 B.bod=new A.cd(B.ai,B.q,B.p,B.hY,null,B.ac,B.au,0,B.aZH,null)
 B.acr=new A.M(B.lF,20,B.v,null,null)
@@ -147222,7 +147222,7 @@ B.bDG=new A.k("Retry",null,null,null,null,null,null,null,null,null,null)
 B.byA=new A.i(!0,B.b7,null,null,null,null,10,B.V,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.bDH=new A.k("STORE SCAN LIMIT",null,B.byA,null,null,null,null,null,null,null,null)
 B.bDJ=new A.k("MOST CLICKED DESTINATION",null,B.yO,null,null,null,null,null,null,null,null)
-B.bDL=new A.k("All Taxes Included",null,B.kg,null,null,null,null,null,null,null,null)
+B.bDL=new A.k("Excl. Tax + GST",null,B.kg,null,null,null,null,null,null,null,null)
 B.bDM=new A.k("Upload your shop logo to display on your landing page and embedded inside your QR code.",null,B.cN,null,null,null,null,null,null,null,null)
 B.bAk=new A.i(!0,B.hf,null,null,null,null,10,B.a0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.bDN=new A.k("SCANS PAUSED",null,B.bAk,null,null,null,null,null,null,null,null)
@@ -148533,7 +148533,7 @@ s($,"bEo","bko",()=>A.bqc(null,t.uK))
 s($,"bEs","b9W",()=>new A.av2())
 s($,"bEH","b9Z",()=>new A.ax9($.bjI()))
 s($,"bFk","b5w",()=>A.aDw("\u20b90 (100% Free for 7 Days)","free_trial_7d",A.a(["7 Days Complete Free Trial","Unlimited Customer QR Scans","Digital Food Menu & Custom Links","Zero Obligation \u2022 No Card Required","Instant PDF Standee Download"],t.s),"plan_free_trial",0,!0,"7-Day Free Trial",0,0,"\ud83d\udfe2 7-DAY FREE TRIAL"))
-s($,"bFl","acN",()=>A.aDw("\u20b91,000 / 6 months (incl. tax)","six_months_unlimited",A.a(["6 Months Full Active Service (180 Days)",u.aS,"Digital Food Menu & WhatsApp Orders","All Social Media & Google Review Links",u.b,"Premium Acrylic Table Standee Included","All Taxes Included"],t.s),"plan_six_months",6,!0,"6 Months Unlimited Plan",1000,0,"\u2b50 6 MONTHS UNLIMITED"))
+s($,"bFl","acN",()=>A.aDw("\u20b91,000 / 6 months (excl. tax)","six_months_unlimited",A.a(["6 Months Full Active Service (180 Days)",u.aS,"Digital Food Menu & WhatsApp Orders","All Social Media & Google Review Links",u.b,"Premium Acrylic Table Standee Included","Excl. Tax + GST"],t.s),"plan_six_months",6,!0,"6 Months Unlimited Plan",1000,0,"\u2b50 6 MONTHS UNLIMITED"))
 s($,"bFj","b5v",()=>A.a([$.b5w(),$.acN()],t.sZ))
 s($,"bEp","b9V",()=>new A.Y())
 r($,"bs0","bkp",()=>{var q=new A.asI()
