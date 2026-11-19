@@ -7,7 +7,7 @@ interface SuspendedViewProps {
 }
 
 export const SuspendedView: React.FC<SuspendedViewProps> = ({ profile }) => {
-  const adminContact = profile.admin_contact || profile.client_phone || "";
+  const adminContact = profile.admin_contact || profile.client_phone || "+91 63691 11820";
   const cleanPhone = adminContact.replace(/[^0-9+]/g, "");
 
   const waUrl = cleanPhone
