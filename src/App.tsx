@@ -22,6 +22,27 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    // Dynamic favicon cache-buster to ensure Mport emblem is active
+    try {
+      const existingFavicons = document.querySelectorAll("link[rel*='icon']");
+      existingFavicons.forEach((el) => el.remove());
+
+      const icoLink = document.createElement("link");
+      icoLink.rel = "icon";
+      icoLink.type = "image/x-icon";
+      icoLink.href = `/favicon.ico?v=3`;
+      document.head.appendChild(icoLink);
+
+      const pngLink = document.createElement("link");
+      pngLink.rel = "icon";
+      pngLink.type = "image/png";
+      pngLink.setAttribute("sizes", "32x32");
+      pngLink.href = `/favicon.png?v=3`;
+      document.head.appendChild(pngLink);
+    } catch {
+      // Ignored in non-browser env
+    }
+
     // Extract slug from path (/p/:slug), hash (#/p/:slug), or query (?slug=:slug)
     const extractSlug = (): string => {
       const searchParams = new URLSearchParams(window.location.search);
